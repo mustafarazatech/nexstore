@@ -1,15 +1,15 @@
 import CategoriesSection from "../components/CategoriesSection";
 import Hero from "../components/Hero";
 import ProductGrid from "../components/ProductGrid";
+import MainLayout from "../layouts/MainLayout";
 
 const Home = () => {
   return (
-    <section>
-    
-      <Hero/>
-      <CategoriesSection/>
-      <ProductGrid/>
-    </section>
+    <MainLayout>
+      <Hero />
+      <CategoriesSection />
+      <ProductGrid />
+    </MainLayout>
   );
 };
 

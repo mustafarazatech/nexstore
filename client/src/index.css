@@ -1,6 +1,46 @@
 @import "tailwindcss";
 
+:root {
+  --pink: #ff78ac;
+  --teal: #a8d5e3;
+  --cream: #f2f0ea;
+}
 * {
-
   font-family: "Open Sans";
+}
+.bg-cream {
+  background-color: var(--cream);
+}
+.bg-teal {
+  background-color: var(--teal);
+}
+.bg-pink {
+  background-color: var(--pink);
+}
+
+.bg-gradient-3 {
+  background: linear-gradient(
+    135deg,
+    var(--cream) 0%,
+    var(--teal) 50%,
+    var(--pink) 100%
+  );
+}
+
+.bg-gradient-3-soft {
+  background: linear-gradient(
+    120deg,
+    var(--cream) 0%,
+    color-mix(in srgb, var(--teal) 60%, white 40%) 45%,
+    color-mix(in srgb, var(--pink) 70%, white 30%) 100%
+  );
+}
+.text-gradient {
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+.text-pink {
+  color: var(--pink);
 }

@@ -43,7 +43,7 @@ const categories = [
 
 const CategoriesSection = () => {
   return (
-    <section className="relative overflow-hidden py-20">
+    <section className="relative overflow-hidden py-20 ">
       {/* Background Glow */}
       <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-blue-200/30 blur-3xl" />
       <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-purple-200/30 blur-3xl" />
@@ -60,8 +60,8 @@ const CategoriesSection = () => {
           </h2>
 
           <p className="mx-auto mt-4 max-w-2xl text-lg text-slate-500">
-            Explore thousands of premium products across our most
-            popular collections.
+            Explore thousands of premium products across our most popular
+            collections.
           </p>
         </div>
 

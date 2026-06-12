@@ -10,83 +10,57 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="relative overflow-hidden bg-slate-950 text-white">
-      {/* Background Glow */}
-      <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-blue-600/10 blur-3xl" />
-      <div className="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-purple-600/10 blur-3xl" />
-
-      <div className="relative mx-auto max-w-7xl px-6 py-20">
+    <footer className="bg-pink text-white">
+      <div className="mx-auto max-w-7xl px-6 py-16">
         {/* Top Section */}
-        <div className="grid gap-12 lg:grid-cols-5">
+        <div className="grid gap-10 lg:grid-cols-4">
           {/* Brand */}
-          <div className="lg:col-span-2">
-            <div className="flex items-center gap-3">
-              <FiShoppingBag className="text-3xl text-blue-500" />
-
-              <h2 className="bg-gradient-to-r from-blue-400 via-cyan-400 to-purple-500 bg-clip-text text-3xl font-black text-transparent">
-                NexStore
-              </h2>
+          <div className="lg:col-span-1">
+            <div className="flex items-center gap-2">
+              <FiShoppingBag className="text-pink text-2xl" />
+              <h2 className="text-2xl font-bold">NexStore</h2>
             </div>
 
-            <p className="mt-5 max-w-md text-slate-400">
-              Discover premium fashion, electronics, and lifestyle
-              products designed for modern shoppers. Quality,
-              affordability, and style in one place.
+            <p className="mt-4 text-sm text-white/70">
+              Premium fashion, electronics, and lifestyle products for modern
+              shopping.
             </p>
 
-            {/* Social Icons */}
-            <div className="mt-8 flex gap-4">
+            {/* Social */}
+            <div className="mt-6 flex gap-3">
               {[FiFacebook, FiTwitter, FiInstagram, FiLinkedin].map(
-                (Icon, index) => (
+                (Icon, i) => (
                   <button
-                    key={index}
-                    className="rounded-xl border border-white/10 bg-white/5 p-3 text-slate-300 transition-all duration-300 hover:border-blue-500 hover:bg-blue-600 hover:text-white"
+                    key={i}
+                    className="rounded-lg bg-white/10 p-2 hover:bg-pink transition"
                   >
-                    <Icon size={18} />
+                    <Icon size={16} />
                   </button>
-                )
+                ),
               )}
             </div>
           </div>
 
           {/* Shop */}
           <div>
-            <h3 className="text-lg font-bold">Shop</h3>
-
-            <ul className="mt-5 space-y-3 text-slate-400">
-              {[
-                "All Products",
-                "Electronics",
-                "Fashion",
-                "Accessories",
-                "Deals",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="cursor-pointer transition hover:text-blue-400"
-                >
-                  {item}
-                </li>
-              ))}
+            <h3 className="font-semibold">Shop</h3>
+            <ul className="mt-4 space-y-2 text-white/70">
+              {["All Products", "Electronics", "Fashion", "Deals"].map(
+                (item) => (
+                  <li key={item} className="hover:text-pink cursor-pointer">
+                    {item}
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="text-lg font-bold">Support</h3>
-
-            <ul className="mt-5 space-y-3 text-slate-400">
-              {[
-                "Contact Us",
-                "FAQs",
-                "Shipping",
-                "Returns",
-                "Track Order",
-              ].map((item) => (
-                <li
-                  key={item}
-                  className="cursor-pointer transition hover:text-blue-400"
-                >
+            <h3 className="font-semibold">Support</h3>
+            <ul className="mt-4 space-y-2 text-white/70">
+              {["Contact", "FAQs", "Shipping", "Returns"].map((item) => (
+                <li key={item} className="hover:text-pink cursor-pointer">
                   {item}
                 </li>
               ))}
@@ -95,21 +69,20 @@ const Footer = () => {
 
           {/* Newsletter */}
           <div>
-            <h3 className="text-lg font-bold">Stay Updated</h3>
+            <h3 className="font-semibold">Newsletter</h3>
 
-            <p className="mt-4 text-sm text-slate-400">
-              Subscribe to receive updates, special offers, and
-              exclusive discounts.
+            <p className="mt-4 text-sm text-white/70">
+              Get updates and offers.
             </p>
 
-            <div className="mt-5 flex overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+            <div className="mt-4 flex overflow-hidden rounded-lg bg-white/10">
               <input
                 type="email"
-                placeholder="Your email"
-                className="w-full bg-transparent px-4 py-3 text-sm outline-none placeholder:text-slate-500"
+                placeholder="Email"
+                className="w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-white/50"
               />
 
-              <button className="bg-gradient-to-r from-blue-600 to-indigo-600 px-4 text-white">
+              <button className="bg-pink px-3">
                 <FiSend />
               </button>
             </div>
@@ -119,21 +92,18 @@ const Footer = () => {
         {/* Divider */}
         <div className="my-10 border-t border-white/10" />
 
-        {/* Bottom Section */}
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          <p className="text-sm text-slate-500">
-            © 2026 NexStore. All rights reserved.
-          </p>
+        {/* Bottom */}
+        <div className="flex flex-col gap-4 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
+          <p>© 2026 NexStore. All rights reserved.</p>
 
-          {/* Payment Methods */}
           <div className="flex gap-3">
             {["VISA", "MC", "AMEX", "UPI"].map((item) => (
-              <div
+              <span
                 key={item}
-                className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-semibold text-slate-300"
+                className="rounded bg-white/10 px-2 py-1 text-xs"
               >
                 {item}
-              </div>
+              </span>
             ))}
           </div>
         </div>

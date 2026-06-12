@@ -1,0 +1,30 @@
+KEY DIFFERENCE (VERY IMPORTANT)
+Feature	req.file.buffer	Buffer.from(file.arrayBuffer())
+Where used	Backend	Frontend
+Who creates buffer	Multer	You manually
+Input type	Express file upload	Browser File object
+Need conversion?	❌ No	✅ Yes
+
+
+
+KEY RULE (VERY IMPORTANT)
+Setup	Buffer method
+Express + Multer	req.file.buffer
+Next.js API (no multer)	Buffer.from(arrayBuffer())
+🧠 Simple analogy
+Multer:
+
+“Backend already unpacked your file”
+
+arrayBuffer():
+
+“You are unpacking file yourself”
+Quick Comparison
+Feature	Memory Storage	Disk Storage
+Stores file in	RAM	Hard disk
+Gives	req.file.buffer	req.file.path
+Best for Sharp	✅	✅
+Best for Cloudinary/S3	✅	Usually not needed
+Creates physical file	❌	✅
+Uses RAM	✅	❌
+Large file uploads	Less suitable	Better
