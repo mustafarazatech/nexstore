@@ -1,11 +1,11 @@
 import type { PRODUCT_ACTIONS } from "./product.action";
 export type ProductItem = {
-  _id?: string;
+  _id?: string | undefined;
   name: string;
   description: string;
   price: string;
   discountPrice: string;
-  stock: string;
+  stock: number;
   brand: string;
   category: any;
   isActive: boolean;
@@ -27,6 +27,8 @@ export type ProductForm = {
 export type ProductState = {
   productForm: ProductForm;
   productList: ProductItem[];
+  productDetail: ProductItem | null;
+  productCategory: any[];
 };
 
 export type ProductContext = {
@@ -35,6 +37,8 @@ export type ProductContext = {
   handleFileChange: (e: any) => void;
   handleSubmit: (e: any) => Promise<void>;
   getProductList: () => Promise<void>;
+  getProductDetail: (id: any) => Promise<void>;
+  getProductCtegoryFilter: (id: any) => Promise<void>;
 };
 
 export type ProductAction =
@@ -47,6 +51,14 @@ export type ProductAction =
     }
   | {
       type: typeof PRODUCT_ACTIONS.GET_PRODUCT_LIST;
+      payload: any;
+    }
+  | {
+      type: typeof PRODUCT_ACTIONS.GET_PRODUCT_CATEGORY;
+      payload: any;
+    }
+  | {
+      type: typeof PRODUCT_ACTIONS.GET_PRODUCT_DETAIL;
       payload: any;
     }
   | {

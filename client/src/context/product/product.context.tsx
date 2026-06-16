@@ -5,7 +5,7 @@ import { PRODUCT_ACTIONS } from "./product.action";
 
 import type { ProductContext, ProductState } from "./product.types";
 
-import { apiFormData, apiGet } from "../../services/api";
+import { apiFormData, apiGet, apiGetId } from "../../services/api";
 
 export const initialState: ProductState = {
   productForm: {
@@ -21,6 +21,8 @@ export const initialState: ProductState = {
   },
 
   productList: [],
+  productDetail: null,
+  productCategory: [],
 };
 
 const ProductContext = createContext<ProductContext | null>(null);
@@ -83,7 +85,7 @@ export const ProductProvider = ({ children }: any) => {
 
     const data = await apiFormData("api/admin/add-product", formData);
 
-    console.log(data);
+    // console.log(data);
   };
   const getProductList = async () => {
     const data = await apiGet("api/admin/product-list");
@@ -93,6 +95,25 @@ export const ProductProvider = ({ children }: any) => {
       payload: data.data,
     });
   };
+  const getProductDetail = async (id: any) => {
+    const data = await apiGetId(`api/admin/product-detail`, id);
+
+    dispatch({
+      type: PRODUCT_ACTIONS.GET_PRODUCT_DETAIL,
+      payload: data.data,
+    });
+  };
+
+  const getProductCtegoryFilter = async (id: any) => {
+    const data = await apiGetId("api/admin/product-category", id);
+    console.log("filter", data);
+    if (data.success) {
+      dispatch({
+        type: PRODUCT_ACTIONS.GET_PRODUCT_CATEGORY,
+        payload: data.data,
+      });
+    }
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -101,6 +122,8 @@ export const ProductProvider = ({ children }: any) => {
         handleFileChange,
         handleSubmit,
         getProductList,
+        getProductDetail,
+        getProductCtegoryFilter,
       }}
     >
       {children}

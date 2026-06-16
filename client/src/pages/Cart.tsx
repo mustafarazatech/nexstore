@@ -1,227 +1,167 @@
-import {
-  FiMinus,
-  FiPlus,
-  FiTrash2,
-  FiShoppingBag,
-  FiArrowRight,
-  FiTag,
-} from "react-icons/fi";
+import { FiMinus, FiPlus } from "react-icons/fi";
 import MainLayout from "../layouts/MainLayout";
-
-const cartItems = [
-  {
-    id: 1,
-    title: "Premium Wireless Headphones",
-    price: 199,
-    quantity: 1,
-    image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500",
-  },
-  {
-    id: 2,
-    title: "Modern Smart Watch",
-    price: 149,
-    quantity: 2,
-    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500",
-  },
-];
+import AddressStrip from "../components/common/AddressStrip";
+import { useAuth } from "../context/auth/auth.context";
+import { useCart } from "../context/cart/cart.context";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
-  const subtotal = cartItems.reduce(
+  const { state } = useAuth();
+  const navigate = useNavigate();
+
+  const {
+    state: { cartList },
+  } = useCart();
+
+  const subtotal = cartList.reduce(
     (acc, item) => acc + item.price * item.quantity,
     0,
   );
 
-  const shipping = subtotal > 300 ? 0 : 20;
+  const shipping = subtotal > 999 ? 0 : 99;
   const total = subtotal + shipping;
 
   return (
     <MainLayout>
-      <section className="relative min-h-screen overflow-hidden bg-slate-50 py-12">
-        {/* Background Glow */}
-        <div className="absolute left-0 top-0 h-96 w-96 rounded-full bg-blue-200/20 blur-3xl" />
-        <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-purple-200/20 blur-3xl" />
+      <section className="min-h-screen bg-gray-50">
+        {/* HEADER */}
+        <div className="mx-auto max-w-6xl px-4 pt-4">
+          <AddressStrip item={state.profileList} />
 
-        <div className="relative mx-auto max-w-7xl px-6">
-          {/* Header */}
-          <div className="mb-10">
-            <span className="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600">
-              Shopping Cart
+          <h1 className="mt-4 text-lg font-semibold text-gray-800">
+            My Bag{" "}
+            <span className="text-gray-500">
+              ({cartList.length} {cartList.length === 1 ? "item" : "items"})
             </span>
+          </h1>
+        </div>
 
-            <h1 className="mt-4 text-4xl font-black text-slate-900 md:text-5xl">
-              Your
-              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
-                {" "}
-                Cart
-              </span>
-            </h1>
-
-            <p className="mt-3 text-slate-500">
-              Review your items before checkout.
-            </p>
-          </div>
-
-          <div className="grid gap-8 lg:grid-cols-3">
-            {/* Cart Items */}
-            <div className="space-y-6 lg:col-span-2">
-              {cartItems.map((item) => (
+        {/* MAIN GRID */}
+        <div className="mx-auto mt-5 grid max-w-6xl grid-cols-1 gap-6 px-4 lg:grid-cols-3">
+          {/* CART ITEMS */}
+          <div className="space-y-3 lg:col-span-2">
+            {cartList.length === 0 ? (
+              <div className="rounded-md border bg-white p-8 text-center text-gray-500">
+                Your cart is empty
+              </div>
+            ) : (
+              cartList.map((item) => (
                 <div
-                  key={item.id}
-                  className="rounded-3xl border border-white/20 bg-white/70 p-5 shadow-lg backdrop-blur-xl"
+                  key={item.product._id}
+                  className="flex border border-gray-100 bg-white p-4 shadow-sm"
                 >
-                  <div className="flex flex-col gap-5 md:flex-row">
-                    {/* Product Image */}
-                    <div className="h-32 w-full overflow-hidden rounded-2xl bg-slate-100 md:w-32">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
+                  {/* PRODUCT IMAGE */}
+                  <div className="h-28 w-24 overflow-hidden bg-gray-100">
+                    <img
+                      src={`http://localhost:3000/api/admin/product-photo/${item.product._id}`}
+                      alt={item.product.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
 
-                    {/* Product Info */}
-                    <div className="flex flex-1 flex-col justify-between">
-                      <div>
-                        <h3 className="text-xl font-bold text-slate-900">
-                          {item.title}
-                        </h3>
+                  {/* PRODUCT DETAILS */}
+                  <div className="ml-4 flex flex-1 flex-col justify-between">
+                    <div>
+                      <h3 className="line-clamp-1 text-sm font-semibold text-gray-900">
+                        {item.product.name}
+                      </h3>
 
-                        <p className="mt-2 text-slate-500">
-                          Premium quality product
-                        </p>
-                      </div>
+                      <p className="mt-1 line-clamp-2 text-xs text-gray-500">
+                        {item.product.description}
+                      </p>
 
-                      <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
-                        {/* Quantity */}
-                        <div className="flex items-center rounded-xl border border-slate-200 bg-white">
-                          <button className="p-3 hover:bg-slate-50">
-                            <FiMinus />
-                          </button>
+                      <div className="mt-2 flex items-center gap-2">
+                        <span className="font-semibold text-gray-900">
+                          ₹{item.product.discountPrice}
+                        </span>
 
-                          <span className="px-4 font-semibold">
-                            {item.quantity}
+                        {item.product.discountPrice !== item.product.price && (
+                          <span className="text-xs text-gray-400 line-through">
+                            ₹{item.product.price}
                           </span>
-
-                          <button className="p-3 hover:bg-slate-50">
-                            <FiPlus />
-                          </button>
-                        </div>
-
-                        {/* Price */}
-                        <div className="text-2xl font-bold text-slate-900">
-                          ${item.price}
-                        </div>
-
-                        {/* Delete */}
-                        <button className="rounded-xl p-3 text-red-500 transition hover:bg-red-50">
-                          <FiTrash2 />
-                        </button>
+                        )}
                       </div>
                     </div>
-                  </div>
-                </div>
-              ))}
-            </div>
 
-            {/* Summary */}
-            <div>
-              <div className="sticky top-24 rounded-3xl border border-white/20 bg-white/70 p-6 shadow-lg backdrop-blur-xl">
-                <h2 className="text-2xl font-bold text-slate-900">
-                  Order Summary
-                </h2>
+                    {/* ACTIONS */}
+                    <div className="mt-3 flex gap-4 text-[11px] font-semibold uppercase text-gray-500">
+                      <button className="hover:text-pink-600">Remove</button>
 
-                {/* Coupon */}
-                <div className="mt-6">
-                  <label className="mb-2 block text-sm font-medium text-slate-600">
-                    Coupon Code
-                  </label>
+                      <span className="text-gray-300">|</span>
 
-                  <div className="flex overflow-hidden rounded-xl border border-slate-200">
-                    <input
-                      type="text"
-                      placeholder="SAVE20"
-                      className="flex-1 px-4 py-3 outline-none"
-                    />
+                      <button className="hover:text-pink-600">Wishlist</button>
 
-                    <button className="bg-slate-900 px-4 text-white">
-                      <FiTag />
-                    </button>
-                  </div>
-                </div>
+                      <span className="text-gray-300">|</span>
 
-                {/* Shipping Progress */}
-                <div className="mt-6 rounded-2xl bg-blue-50 p-4">
-                  <p className="text-sm text-blue-700">
-                    Add{" "}
-                    <span className="font-bold">
-                      ${Math.max(0, 300 - subtotal)}
-                    </span>{" "}
-                    more for FREE shipping 🚚
-                  </p>
-
-                  <div className="mt-3 h-2 overflow-hidden rounded-full bg-blue-100">
-                    <div
-                      className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
-                      style={{
-                        width: `${Math.min((subtotal / 300) * 100, 100)}%`,
-                      }}
-                    />
-                  </div>
-                </div>
-
-                {/* Pricing */}
-                <div className="mt-8 space-y-4">
-                  <div className="flex justify-between text-slate-600">
-                    <span>Subtotal</span>
-                    <span>${subtotal}</span>
+                      <button className="hover:text-pink-600">Similar</button>
+                    </div>
                   </div>
 
-                  <div className="flex justify-between text-slate-600">
-                    <span>Shipping</span>
-                    <span>{shipping === 0 ? "Free" : `$${shipping}`}</span>
-                  </div>
+                  {/* PRICE + QUANTITY */}
+                  <div className="flex flex-col items-end justify-between">
+                    <div className="text-sm font-bold text-gray-900">
+                      ₹{item.price * item.quantity}
+                    </div>
 
-                  <div className="border-t pt-4">
-                    <div className="flex justify-between text-xl font-bold text-slate-900">
-                      <span>Total</span>
-                      <span>${total}</span>
+                    <div className="mt-6 flex items-center border border-gray-200">
+                      <button className="px-2 py-1 hover:bg-gray-100">
+                        <FiMinus size={12} />
+                      </button>
+
+                      <span className="px-3 text-xs font-medium">
+                        {item.quantity}
+                      </span>
+
+                      <button className="px-2 py-1 hover:bg-gray-100">
+                        <FiPlus size={12} />
+                      </button>
                     </div>
                   </div>
                 </div>
-
-                {/* Checkout */}
-                <button className="mt-8 flex w-full items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 py-4 font-semibold text-white shadow-lg shadow-blue-500/20 transition hover:scale-[1.02]">
-                  Proceed to Checkout
-                  <FiArrowRight />
-                </button>
-
-                <button className="mt-3 w-full rounded-2xl border border-slate-200 py-4 font-medium text-slate-700 transition hover:bg-slate-50">
-                  Continue Shopping
-                </button>
-              </div>
-            </div>
+              ))
+            )}
           </div>
 
-          {/* Empty Cart State (Use when cart is empty) */}
-          {false && (
-            <div className="flex flex-col items-center justify-center py-32">
-              <div className="rounded-full bg-blue-100 p-8">
-                <FiShoppingBag size={50} className="text-blue-600" />
-              </div>
-
-              <h2 className="mt-6 text-3xl font-bold text-slate-900">
-                Your Cart is Empty
+          {/* PRICE SUMMARY */}
+          <div className="lg:col-span-1">
+            <div className="sticky top-4 border border-gray-100 bg-white p-4 shadow-sm">
+              <h2 className="text-xs font-bold uppercase text-gray-500">
+                Price Details ({cartList.length}{" "}
+                {cartList.length === 1 ? "Item" : "Items"})
               </h2>
 
-              <p className="mt-3 text-slate-500">
-                Looks like you haven't added anything yet.
-              </p>
+              <div className="mt-4 space-y-3 text-sm">
+                <div className="flex justify-between text-gray-700">
+                  <span>Total MRP</span>
+                  <span>₹{subtotal}</span>
+                </div>
 
-              <button className="mt-8 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 px-8 py-4 font-semibold text-white">
-                Start Shopping
+                <div className="flex justify-between text-gray-700">
+                  <span>Shipping</span>
+
+                  <span
+                    className={
+                      shipping === 0 ? "font-medium text-green-600" : ""
+                    }
+                  >
+                    {shipping === 0 ? "FREE" : `₹${shipping}`}
+                  </span>
+                </div>
+
+                <div className="flex justify-between border-t pt-3 font-bold text-gray-900">
+                  <span>Total Amount</span>
+                  <span>₹{total}</span>
+                </div>
+              </div>
+
+              <button
+                onClick={() => navigate("/checkout")}
+                className="mt-6 w-full bg-pink-600 py-3 text-sm font-semibold uppercase tracking-wide text-white hover:bg-pink-700"
+              >
+                Place Order
               </button>
             </div>
-          )}
+          </div>
         </div>
       </section>
     </MainLayout>

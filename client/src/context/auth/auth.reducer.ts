@@ -19,6 +19,19 @@ export const authReducer = (state: AuthState, action: Action): AuthState => {
           [action.payload.key]: action.payload.value,
         },
       };
+    case AUTH_ACTIONS.HANDLE_PROFILE_CHANGE:
+      return {
+        ...state,
+        profileObj: {
+          ...state.profileObj,
+          [action.payload.key]: action.payload.value,
+        },
+      };
+    case AUTH_ACTIONS.GET_USER_PROFILE:
+      return {
+        ...state,
+        profileList: action.payload,
+      };
 
     // case AUTH_ACTIONS.RESET:
     //   return initialState;

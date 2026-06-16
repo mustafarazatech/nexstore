@@ -11,15 +11,17 @@ import {
   FiShoppingCart,
 } from "react-icons/fi";
 import { useAuth } from "../context/auth/auth.context";
+import { useCart } from "../context/cart/cart.context";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { user, loading } = useAuth();
+  const { state } = useCart();
 
-  const navLinkClass = ({ isActive }) =>
+  const navLinkClass = ({ isActive }: any) =>
     `flex items-center gap-2 px-4 py-2 rounded-lg transition ${
       isActive
-        ? "bg-cream text-teal font-semibold"
+        ? "bg-pink text-white font-semibold "
         : "text-gray-700 hover:bg-gray-100 hover:text-teal"
     }`;
 
@@ -64,10 +66,13 @@ const Navbar = () => {
             <NavLink to="/cart" className={navLinkClass}>
               <FiShoppingCart size={18} />
               Cart
+              <sup className="bg-pink  h-5 w-5 flex justify-center items-center rounded-full text-white">
+                {state.cartList.length}
+              </sup>
             </NavLink>
 
             {loading ? null : user ? (
-              <NavLink to="/profile" className={navLinkClass}>
+              <NavLink to="/user-profile" className={navLinkClass}>
                 <FiUser size={18} />
                 Profile
               </NavLink>
@@ -130,11 +135,14 @@ const Navbar = () => {
           >
             <FiShoppingCart />
             Cart
+            <sup className="bg-pink  h-5 w-5 flex justify-center items-center rounded-full text-white">
+              2
+            </sup>
           </NavLink>
 
           {user ? (
             <NavLink
-              to="/profile"
+              to="/user-profile"
               className={navLinkClass}
               onClick={() => setIsOpen(false)}
             >

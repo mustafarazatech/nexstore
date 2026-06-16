@@ -11,43 +11,46 @@ import {
 const Footer = () => {
   return (
     <footer className="bg-pink text-white">
-      <div className="mx-auto max-w-7xl px-6 py-16">
-        {/* Top Section */}
-        <div className="grid gap-10 lg:grid-cols-4">
-          {/* Brand */}
-          <div className="lg:col-span-1">
+      <div className="mx-auto max-w-7xl px-6 py-12">
+        {/* TOP SECTION (MYNTRA STYLE COMPACT) */}
+        <div className="grid gap-10 md:grid-cols-4">
+          {/* BRAND */}
+          <div>
             <div className="flex items-center gap-2">
-              <FiShoppingBag className="text-pink text-2xl" />
-              <h2 className="text-2xl font-bold">NexStore</h2>
+              <FiShoppingBag className="text-white text-xl" />
+              <h2 className="text-lg font-semibold">NexStore</h2>
             </div>
 
-            <p className="mt-4 text-sm text-white/70">
-              Premium fashion, electronics, and lifestyle products for modern
-              shopping.
+            <p className="mt-3 text-xs text-white/70 leading-relaxed">
+              Fashion, electronics & lifestyle products for everyday shopping.
             </p>
 
-            {/* Social */}
-            <div className="mt-6 flex gap-3">
+            {/* SOCIAL */}
+            <div className="mt-4 flex gap-2">
               {[FiFacebook, FiTwitter, FiInstagram, FiLinkedin].map(
                 (Icon, i) => (
                   <button
                     key={i}
-                    className="rounded-lg bg-white/10 p-2 hover:bg-pink transition"
+                    className="p-2 bg-white/10 hover:bg-white/20 transition"
                   >
-                    <Icon size={16} />
+                    <Icon size={14} />
                   </button>
                 ),
               )}
             </div>
           </div>
 
-          {/* Shop */}
+          {/* SHOP */}
           <div>
-            <h3 className="font-semibold">Shop</h3>
-            <ul className="mt-4 space-y-2 text-white/70">
-              {["All Products", "Electronics", "Fashion", "Deals"].map(
+            <h3 className="text-sm font-semibold">Shop</h3>
+
+            <ul className="mt-3 space-y-2 text-xs text-white/70">
+              {["All Products", "Fashion", "Electronics", "Deals"].map(
                 (item) => (
-                  <li key={item} className="hover:text-pink cursor-pointer">
+                  <li
+                    key={item}
+                    className="hover:text-white cursor-pointer transition"
+                  >
                     {item}
                   </li>
                 ),
@@ -55,53 +58,54 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Support */}
+          {/* SUPPORT */}
           <div>
-            <h3 className="font-semibold">Support</h3>
-            <ul className="mt-4 space-y-2 text-white/70">
-              {["Contact", "FAQs", "Shipping", "Returns"].map((item) => (
-                <li key={item} className="hover:text-pink cursor-pointer">
-                  {item}
-                </li>
-              ))}
+            <h3 className="text-sm font-semibold">Support</h3>
+
+            <ul className="mt-3 space-y-2 text-xs text-white/70">
+              {["Help Center", "Shipping", "Returns", "Contact Us"].map(
+                (item) => (
+                  <li
+                    key={item}
+                    className="hover:text-white cursor-pointer transition"
+                  >
+                    {item}
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
-          {/* Newsletter */}
+          {/* NEWSLETTER */}
           <div>
-            <h3 className="font-semibold">Newsletter</h3>
+            <h3 className="text-sm font-semibold">Stay Updated</h3>
 
-            <p className="mt-4 text-sm text-white/70">
-              Get updates and offers.
-            </p>
+            <p className="mt-3 text-xs text-white/70">Get offers & updates.</p>
 
-            <div className="mt-4 flex overflow-hidden rounded-lg bg-white/10">
+            <div className="mt-4 flex overflow-hidden bg-white/10">
               <input
                 type="email"
-                placeholder="Email"
-                className="w-full bg-transparent px-3 py-2 text-sm outline-none placeholder:text-white/50"
+                placeholder="Email address"
+                className="w-full bg-transparent px-3 py-2 text-xs outline-none placeholder:text-white/50"
               />
 
-              <button className="bg-pink px-3">
-                <FiSend />
+              <button className="px-3 hover:bg-white/20 transition">
+                <FiSend size={14} />
               </button>
             </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="my-10 border-t border-white/10" />
+        {/* DIVIDER */}
+        <div className="my-8 border-t border-white/10" />
 
-        {/* Bottom */}
-        <div className="flex flex-col gap-4 text-sm text-white/60 md:flex-row md:items-center md:justify-between">
+        {/* BOTTOM (MYNTRA STYLE SIMPLE) */}
+        <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between text-xs text-white/60">
           <p>© 2026 NexStore. All rights reserved.</p>
 
-          <div className="flex gap-3">
-            {["VISA", "MC", "AMEX", "UPI"].map((item) => (
-              <span
-                key={item}
-                className="rounded bg-white/10 px-2 py-1 text-xs"
-              >
+          <div className="flex gap-2">
+            {["VISA", "MC", "UPI"].map((item) => (
+              <span key={item} className="bg-white/10 px-2 py-1 text-[10px]">
                 {item}
               </span>
             ))}

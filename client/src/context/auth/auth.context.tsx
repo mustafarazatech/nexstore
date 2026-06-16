@@ -10,7 +10,6 @@ import { authReducer } from "./auth.reducer";
 import { AUTH_ACTIONS } from "./auth.action";
 import { apiGet, apiPost } from "../../services/api";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import { showErrorToast, showSuccessToast } from "../../utils/toast";
 type User = {
   id: string;
@@ -27,6 +26,14 @@ export const initialState: AuthState = {
     email: "",
     password: "",
   },
+  profileObj: {
+    mobileNo: "",
+    address: "",
+    city: "",
+    stateName: "",
+    pinCode: "",
+  },
+  profileList: [],
 };
 const AuthContext = createContext<AuthContext | null>(null);
 
@@ -79,7 +86,6 @@ export const AuthProvider = ({ children }: any) => {
   };
   const handleLoginSubmit = async (e: any) => {
     e.preventDefault();
-    // console.log(state.authForm);
     try {
       const { email, password } = state.loginForm;
       const body = {
@@ -113,15 +119,40 @@ export const AuthProvider = ({ children }: any) => {
 
     loadUser();
   }, []);
-  // console.log("user", user);
-  //   const handleLogout = async () => {
-  //   await apiPost("api/user/logout", {});
 
-  //   setUser(null);
+  const handleProfileChange = (e: any) => {
+    // console.log(e.target.name, e.target.value);
+    const { name, value } = e.target;
+    dispatch({
+      type: AUTH_ACTIONS.HANDLE_PROFILE_CHANGE,
+      payload: { key: name, value: value },
+    });
+  };
+  const handleProfileSubmit = async (e: any) => {
+    e.preventDefault();
+    const { mobileNo, address, pinCode, stateName } = state.profileObj;
+    const payload = {
+      mobileNo,
+      address,
+      pinCode,
+      stateName,
+    };
 
-  //   navigate("/login");
-  // };
-
+    const data = await apiPost("api/user/create-profile", payload);
+    console.log(data);
+    getProfile();
+  };
+  const getProfile = async () => {
+    const data = await apiGet("api/user/get-profile");
+    // console.log(data);
+    dispatch({
+      type: AUTH_ACTIONS.GET_USER_PROFILE,
+      payload: data.profile,
+    });
+  };
+  useEffect(() => {
+    getProfile();
+  }, []);
   return (
     <AuthContext.Provider
       value={{
@@ -130,6 +161,9 @@ export const AuthProvider = ({ children }: any) => {
         handleLoginChange,
         handleRegisterSubmit,
         handleLoginSubmit,
+        handleProfileChange,
+        handleProfileSubmit,
+        getProfile,
         user,
         loading,
       }}

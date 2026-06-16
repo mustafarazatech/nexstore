@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import Button from "../../components/common/Button";
 import Container from "../../components/common/Container";
 import Form from "../../components/common/Form";
@@ -15,176 +16,205 @@ const AddProduct = () => {
 
   return (
     <AdminLayout>
-      <Container heading="Add Product">
-        <div className="mx-auto max-w-4xl">
-          <div className="rounded-2xl bg-white p-8 shadow-sm">
-            <Form onSubmit={handleSubmit}>
-              {/* Product Information */}
-              <div className="mb-8">
-                <h4 className="mb-4 text-xl font-semibold text-slate-800">
-                  Product Information
-                </h4>
+      <Container heading="Add Product" subHeading="Add and mange Product">
+        <div className="flex justify-end mb-2">
+          <div className="bg-pink px-4 py-2.5 text-white rounded">
+            <NavLink to="/admin/product-list">Product List</NavLink>
+          </div>
+        </div>
 
-                <FormRow>
-                  <Input
-                    label="Product Name"
-                    name="name"
-                    type="text"
-                    placeholder="Nike Air Max 270"
-                    value={state.productForm.name}
-                    onChange={handleChange}
-                  />
-                </FormRow>
+        <Form onSubmit={handleSubmit}>
+          {/* Product Information */}
+          <div className="mb-8">
+            <h4 className="mb-4 text-xl font-semibold text-slate-800">
+              Product Information
+            </h4>
 
-                <div className="mt-4">
-                  <label className="mb-2 block text-sm font-medium text-slate-700">
-                    Description
-                  </label>
+            <FormRow>
+              <Input
+                label="Product Name"
+                name="name"
+                type="text"
+                placeholder="Nike Air Max 270"
+                value={state.productForm.name}
+                onChange={handleChange}
+              />
+            </FormRow>
 
-                  <textarea
-                    className="w-full rounded-xl border border-slate-300 p-3 outline-none transition focus:border-blue-500"
-                    name="description"
-                    rows={5}
-                    placeholder="Write Product Description"
-                    value={state.productForm.description}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
+            <div className="mt-4">
+              <label className="mb-2 block text-sm font-medium text-slate-700">
+                Description
+              </label>
 
-              {/* Pricing */}
-              <div className="mb-8 rounded-xl border border-slate-200 p-5">
-                <h5 className="mb-4 text-lg font-semibold text-slate-800">
-                  Pricing
-                </h5>
+              <textarea
+                className="w-full rounded-xl border border-slate-300 p-3 outline-none transition focus:border-blue-500"
+                name="description"
+                rows={5}
+                placeholder="Write Product Description"
+                value={state.productForm.description}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
 
-                <FormRow>
-                  <Input
-                    label="Price"
-                    name="price"
-                    type="number"
-                    placeholder="999"
-                    value={state.productForm.price}
-                    onChange={handleChange}
-                  />
+          {/* Pricing */}
+          <div className="mb-8 rounded-xl border border-slate-200 p-5">
+            <h5 className="mb-4 text-lg font-semibold text-slate-800">
+              Pricing
+            </h5>
 
-                  <Input
-                    label="Discount Price"
-                    name="discountPrice"
-                    type="number"
-                    placeholder="799"
-                    value={state.productForm.discountPrice}
-                    onChange={handleChange}
-                  />
-                </FormRow>
-              </div>
+            <FormRow>
+              <Input
+                label="Price"
+                name="price"
+                type="number"
+                placeholder="999"
+                value={state.productForm.price}
+                onChange={handleChange}
+              />
 
-              {/* Inventory */}
-              <div className="mb-8 rounded-xl border border-slate-200 p-5">
-                <h5 className="mb-4 text-lg font-semibold text-slate-800">
-                  Inventory
-                </h5>
+              <Input
+                label="Discount Price"
+                name="discountPrice"
+                type="number"
+                placeholder="799"
+                value={state.productForm.discountPrice}
+                onChange={handleChange}
+              />
+            </FormRow>
+          </div>
 
-                <FormRow>
-                  <Input
-                    label="Stock Quantity"
-                    name="stock"
-                    type="number"
-                    placeholder="100"
-                    value={state.productForm.stock}
-                    onChange={handleChange}
-                  />
+          {/* Inventory */}
+          <div className="mb-8 rounded-xl border border-slate-200 p-5">
+            <h5 className="mb-4 text-lg font-semibold text-slate-800">
+              Inventory
+            </h5>
 
-                  <Input
-                    label="Brand"
-                    name="brand"
-                    type="text"
-                    placeholder="Nike"
-                    value={state.productForm.brand}
-                    onChange={handleChange}
-                  />
-                </FormRow>
-              </div>
+            <FormRow>
+              <Input
+                label="Stock Quantity"
+                name="stock"
+                type="number"
+                placeholder="100"
+                value={state.productForm.stock}
+                onChange={handleChange}
+              />
 
-              {/* Category */}
-              <div className="mb-8 rounded-xl border border-slate-200 p-5">
-                <h5 className="mb-4 text-lg font-semibold text-slate-800">
-                  Category
-                </h5>
+              <Input
+                label="Brand"
+                name="brand"
+                type="text"
+                placeholder="Nike"
+                value={state.productForm.brand}
+                onChange={handleChange}
+              />
+            </FormRow>
+          </div>
 
-                <label className="mb-2 block text-sm font-medium text-slate-700">
-                  Select Category
-                </label>
+          {/* Category */}
+          <div className="mb-8 rounded-xl border border-slate-200 p-5">
+            <h5 className="mb-4 text-lg font-semibold text-slate-800">
+              Category
+            </h5>
 
-                <select
-                  className="w-full rounded-xl border border-slate-300 p-3 outline-none transition focus:border-blue-500"
-                  name="category"
-                  value={state.productForm.category}
-                  onChange={handleChange}
+            <label className="mb-2 block text-sm font-medium text-slate-700">
+              Select Category
+            </label>
+
+            <select
+              className="w-full rounded-xl border border-slate-300 p-3 outline-none transition focus:border-blue-500"
+              name="category"
+              value={state.productForm.category}
+              onChange={handleChange}
+            >
+              <option value="">Select Category</option>
+
+              {categoryList.map((item) => (
+                <option key={item._id} value={item._id}>
+                  {item.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Upload Section */}
+          <div className="mt-6">
+            <label className="mb-3 block text-sm font-medium text-slate-300">
+              Product Image
+            </label>
+
+            <div className="rounded-2xl border-2 border-dashed border-slate-700 bg-cream p-8 transition-all hover:border-blue-900">
+              <div className="flex flex-col items-center justify-center text-center">
+                <svg
+                  className="mb-4 h-12 w-12 text-slate-500"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
                 >
-                  <option value="">Select Category</option>
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={1.5}
+                    d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+                  />
+                </svg>
 
-                  {categoryList.map((item) => (
-                    <option key={item._id} value={item._id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
+                <p className="mb-2 text-sm text-slate-300">
+                  Upload category image
+                </p>
 
-              {/* Image Upload */}
-              <div className="mb-8 rounded-xl border-2 border-dashed border-slate-300 bg-slate-50 p-6 text-center">
-                <h6 className="mb-2 text-lg font-semibold text-slate-800">
-                  Upload Product Image
-                </h6>
-
-                <p className="mb-4 text-sm text-slate-500">
-                  JPG, PNG supported
+                <p className="mb-4 text-xs text-slate-500">
+                  PNG, JPG, JPEG up to 5MB
                 </p>
 
                 <input
                   type="file"
                   name="photo"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="block w-full rounded-lg border border-slate-300 bg-white p-2"
-                />
-
-                {state.productForm.photo && (
-                  <p className="mt-3 text-sm font-medium text-green-600">
-                    {state.productForm.photo.name}
-                  </p>
-                )}
-              </div>
-
-              {/* Status */}
-              <div className="mb-8 flex items-center justify-between rounded-xl border border-slate-200 p-5">
-                <div>
-                  <h6 className="font-semibold text-slate-800">
-                    Product Status
-                  </h6>
-
-                  <p className="text-sm text-slate-500">
-                    Make product visible in store
-                  </p>
-                </div>
-
-                <input
-                  type="checkbox"
-                  name="isActive"
-                  checked={state.productForm.isActive}
-                  onChange={handleChange}
-                  className="h-5 w-5 accent-blue-600"
+                  onChange={(e) => handleFileChange(e)}
+                  className="block w-full text-sm text-slate-400
+                    file:mr-4
+                    file:rounded
+                    file:border-0
+                   file:bg-[#ff78ac]
+                    file:px-5
+                    file:py-3
+                    file:font-medium
+                    file:text-white
+        "
                 />
               </div>
-
-              {/* Submit */}
-              <div className="flex justify-end">
-                <Button type="submit">Publish Product</Button>
-              </div>
-            </Form>
+            </div>
           </div>
-        </div>
+
+          {/* Status */}
+          <div className="mb-8 flex items-center justify-between rounded-xl border border-slate-200 p-5">
+            <div>
+              <h6 className="font-semibold text-slate-800">Product Status</h6>
+
+              <p className="text-sm text-slate-500">
+                Make product visible in store
+              </p>
+            </div>
+
+            <input
+              type="checkbox"
+              name="isActive"
+              checked={state.productForm.isActive}
+              onChange={handleChange}
+              className="h-5 w-5 accent-blue-600"
+            />
+          </div>
+
+          {/* Submit */}
+          <div className="mt-8 flex justify-end">
+            <button
+              type="submit"
+              className="rounded bg-pink px-8 py-3 font-medium text-white shadow"
+            >
+              Add Product
+            </button>
+          </div>
+        </Form>
       </Container>
     </AdminLayout>
   );

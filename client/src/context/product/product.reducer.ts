@@ -28,6 +28,16 @@ export const productReducer = (
         ...state,
         productList: action.payload,
       };
+    case PRODUCT_ACTIONS.GET_PRODUCT_DETAIL:
+      return {
+        ...state,
+        productDetail: action.payload,
+      };
+    case PRODUCT_ACTIONS.GET_PRODUCT_CATEGORY:
+      return {
+        ...state,
+        productCategory: action.payload,
+      };
 
     default:
       return state;

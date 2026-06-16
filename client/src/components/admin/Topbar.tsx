@@ -1,8 +1,10 @@
 import { FiBell, FiSearch, FiMoon } from "react-icons/fi";
+import { useTheme } from "../../context/theme/theme.context";
 
 const Topbar = () => {
+  const { toggleTheme } = useTheme();
   return (
-    <header className=" flex items-center justify-between border-b border-slate-200 bg-white px-6 py-2.5 shadow-sm">
+    <header className=" flex items-center justify-between border-b border-slate-200  px-6 py-2.5 shadow-sm">
       {/* Left Section */}
       <div className="flex items-center gap-4">
         <div>
@@ -31,7 +33,10 @@ const Topbar = () => {
         </div>
 
         {/* Dark Mode */}
-        <button className="rounded-xl p-2.5 text-slate-600 hover:bg-slate-100">
+        <button
+          className="rounded-xl p-2.5 text-slate-600 hover:bg-slate-100"
+          onClick={toggleTheme}
+        >
           <FiMoon size={18} />
         </button>
 

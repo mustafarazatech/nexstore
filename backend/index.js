@@ -4,6 +4,7 @@ import cors from "cors";
 
 import authRoute from "./routes/auth.route.js";
 import authMeRoute from "./routes/auth.me.route.js";
+import cartRoute from "./routes/cart.route.js";
 import categoryRoute from "./routes/category.route.js";
 import productRoute from "./routes/product.route.js";
 import connectDB from "./config/db.js";
@@ -25,6 +26,7 @@ app.use("/api", authRoute);
 app.use("/api", categoryRoute);
 app.use("/api", productRoute);
 app.use("/api", authMeRoute);
+app.use("/api", cartRoute);
 
 app.get("/", (req, res) => {
   res.send("<h1>This is the Heading for test</h1>");

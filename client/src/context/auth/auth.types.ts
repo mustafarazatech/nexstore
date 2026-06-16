@@ -9,10 +9,19 @@ export type LoginForm = {
   email: string;
   password: string;
 };
+export type ProfileObj = {
+  mobileNo: string;
+  address: string;
+  city: string;
+  stateName: string;
+  pinCode?: string;
+};
 
 export type AuthState = {
   registerForm: RegisterForm;
   loginForm: LoginForm;
+  profileObj: ProfileObj;
+  profileList: ProfileObj[];
 };
 
 export type AuthContext = {
@@ -23,6 +32,9 @@ export type AuthContext = {
   handleLoginChange: (e: any) => void;
   handleRegisterSubmit: (e: any) => Promise<void>;
   handleLoginSubmit: (e: any) => Promise<void>;
+  handleProfileSubmit: (e: any) => Promise<void>;
+  handleProfileChange: (e: any) => void;
+  getProfile: () => Promise<void>;
 };
 
 export type Action =
@@ -37,6 +49,17 @@ export type Action =
       type: typeof AUTH_ACTIONS.HANDLE_LOGIN_CHANGE;
       payload: {
         key: keyof LoginForm;
+        value: string;
+      };
+    }
+  | {
+      type: typeof AUTH_ACTIONS.GET_USER_PROFILE;
+      payload: any;
+    }
+  | {
+      type: typeof AUTH_ACTIONS.HANDLE_PROFILE_CHANGE;
+      payload: {
+        key: keyof ProfileObj;
         value: string;
       };
     };

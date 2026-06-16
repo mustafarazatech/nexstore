@@ -1,121 +1,108 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FiHeart, FiShoppingCart, FiStar } from "react-icons/fi";
-
-type Product = {
-  id: number;
-  title: string;
-  price: number;
-  image: string;
-};
+import { useProduct } from "../context/product/product.context";
+import { NavLink } from "react-router-dom";
 
 const ProductGrid = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { state, getProductList } = useProduct();
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await fetch("https://fakestoreapi.com/products");
-        const data = await res.json();
-        setProducts(data.slice(0, 8));
-      } catch (error) {
-        console.log(error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProducts();
+    getProductList();
   }, []);
 
-  if (loading) {
-    return (
-      <section className="mx-auto max-w-7xl px-6 py-16">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {Array.from({ length: 8 }).map((_, i) => (
-            <div
-              key={i}
-              className="h-[380px] animate-pulse rounded-2xl bg-gray-100"
-            />
-          ))}
-        </div>
-      </section>
-    );
-  }
-
   return (
-    <section className="bg-cream py-16">
-      <div className="mx-auto max-w-7xl px-6">
-        {/* Header */}
-        <div className="mb-10 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+    <section className="bg-gray-50 py-14">
+      <div className="mx-auto max-w-7xl px-4">
+        {/* HEADER */}
+        <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="rounded-full bg-teal/10 px-4 py-1 text-sm font-semibold text-teal">
-              Featured Products
+            <span className="rounded-full bg-pink-50 px-3 py-1 text-xs font-semibold text-pink-600">
+              Featured Collection
             </span>
 
-            <h2 className="mt-4 text-3xl font-bold text-gray-900 md:text-4xl">
+            <h2 className="mt-3 text-2xl font-bold text-gray-900 md:text-3xl">
               Trending Products
             </h2>
 
-            <p className="mt-2 text-gray-600">Best picks loved by customers.</p>
+            <p className="mt-1 text-sm text-gray-500">
+              Best picks loved by customers
+            </p>
           </div>
 
-          <button className="text-teal font-semibold hover:underline">
+          <button className="text-sm font-medium text-pink-600 hover:underline">
             View All →
           </button>
         </div>
 
-        {/* Grid */}
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => (
-            <div
-              key={product.id}
-              className="group rounded-2xl bg-white border border-gray-100 p-4 transition hover:shadow-md"
-            >
-              {/* Image */}
-              <div className="flex h-60 items-center justify-center bg-cream rounded-xl p-4">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="h-full object-contain transition group-hover:scale-105"
-                />
-              </div>
+        {/* GRID */}
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {state?.productList.map((product: any) => (
+            <NavLink key={product._id} to={`/product-detail/${product._id}`}>
+              <div className="group relative rounded-xl border border-gray-100 bg-white p-3 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                {/* Wishlist */}
+                <button className="absolute right-3 top-3 rounded-full bg-white p-1.5 shadow opacity-0 transition group-hover:opacity-100">
+                  <FiHeart
+                    size={14}
+                    className="text-gray-500 hover:text-pink-500"
+                  />
+                </button>
 
-              {/* Content */}
-              <div className="mt-4">
-                {/* Rating */}
-                <div className="flex items-center gap-1 text-teal">
-                  <FiStar />
-                  <FiStar />
-                  <FiStar />
-                  <FiStar />
-                  <FiStar />
-                  <span className="ml-2 text-sm text-gray-500">(4.9)</span>
+                {/* IMAGE */}
+                <div className="flex h-44 items-center justify-center overflow-hidden rounded-lg bg-gray-50">
+                  <img
+                    src={`http://localhost:3000/api/admin/product-photo/${product?._id}`}
+                    alt={product.name}
+                    className="h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
                 </div>
 
-                {/* Title */}
-                <h3 className="mt-2 line-clamp-2 text-sm font-semibold text-gray-900">
-                  {product.title}
+                {/* RATING */}
+                <div className="mt-2 inline-flex items-center gap-1 rounded-full bg-green-50 px-2 py-0.5 text-[10px] font-medium text-green-600">
+                  <FiStar size={10} />
+                  4.8
+                </div>
+
+                {/* TITLE */}
+                <h3 className="mt-1 line-clamp-2 text-xs font-semibold text-gray-900">
+                  {product.name}
                 </h3>
 
-                {/* Price */}
-                <div className="mt-3 flex items-center gap-2">
-                  <span className="text-lg font-bold text-gray-900">
-                    ${product.price}
-                  </span>
+                {/* DESCRIPTION */}
+                <p className="mt-0.5 line-clamp-2 text-[11px] text-gray-500">
+                  {product.description}
+                </p>
 
-                  <span className="text-sm text-gray-400 line-through">
-                    ${(product.price * 1.2).toFixed(2)}
-                  </span>
+                {/* STOCK */}
+                <div className="mt-1 text-[11px]">
+                  {product.stock > 0 ? (
+                    <span className="text-green-600">
+                      Available ({product.stock})
+                    </span>
+                  ) : (
+                    <span className="text-red-500">Out of stock</span>
+                  )}
                 </div>
 
-                {/* Button */}
-                <button className="mt-4 flex w-full items-center justify-center gap-2 rounded-xl bg-teal px-4 py-2 text-white hover:opacity-90 transition">
+                {/* PRICE */}
+                <div className="mt-2 flex items-center gap-2">
+                  <span className="text-sm font-bold text-gray-900">
+                    ₹{product.price}
+                  </span>
+
+                  {product.discountPrice && (
+                    <span className="text-xs text-gray-400 line-through">
+                      ₹{product.discountPrice}
+                    </span>
+                  )}
+                </div>
+
+                {/* BUTTON */}
+                <button className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white py-1.5 text-xs font-medium text-gray-700 hover:border-pink-500 hover:text-pink-500">
                   <FiShoppingCart />
                   Add to Cart
                 </button>
               </div>
-            </div>
+            </NavLink>
           ))}
         </div>
       </div>

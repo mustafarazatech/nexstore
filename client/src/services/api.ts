@@ -14,6 +14,19 @@ export const apiGet = async (endpoint: string) => {
 
   return data;
 };
+export const apiGetId = async (endpoint: string, id: any) => {
+  const res = await fetch(`${API_URL}/${endpoint}/${id}`, {
+    credentials: "include",
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.message || "Something went wrong");
+  }
+
+  return data;
+};
 
 // POST
 export const apiPost = async (

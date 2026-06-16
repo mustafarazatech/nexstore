@@ -1,5 +1,6 @@
 import Product from "../models/Product.js";
 import resizePhoto from "../utils/resize.js";
+import mongoose from "mongoose";
 
 export const addProduct = async (req, res) => {
   try {
@@ -26,7 +27,7 @@ export const addProduct = async (req, res) => {
 
     if (req.file) {
       const resizedImage = await resizePhoto(req.file.buffer);
-      console.log(resizedImage);
+      // console.log(resizedImage);
 
       photo = {
         data: resizedImage.buffer,
@@ -80,10 +81,39 @@ export const getProductList = async (req, res) => {
     });
   }
 };
+export const getProductDetail = async (req, res) => {
+  try {
+    const { id } = req.params;
+    // console.log(id);
+    const data = await Product.findOne({ _id: id })
+      .populate("category", "name")
+      .select("-photo");
+    // console.log(data);
+
+    return res.status(200).json({
+      success: true,
+      data,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
 
 export const getProductPhoto = async (req, res) => {
   try {
     const { id } = req.params;
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid product id",
+      });
+    }
 
     const product = await Product.findById(id).select("photo");
 
@@ -97,6 +127,30 @@ export const getProductPhoto = async (req, res) => {
     res.set("Content-Type", product.photo.imageType);
 
     return res.send(product.photo.data);
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Internal Server Error",
+    });
+  }
+};
+// filter product by category =
+
+export const getFilterByCategory = async (req, res) => {
+  try {
+    const { id } = req.params; // category id
+
+    const products = await Product.find({ category: id })
+      .populate("category", "name")
+      .select("-photo");
+
+    return res.status(200).json({
+      success: true,
+      count: products.length,
+      data: products,
+    });
   } catch (error) {
     console.error(error);
 

@@ -50,7 +50,7 @@ export const CategoryProvider = ({ children }: any) => {
     // console.log(data);
   };
   const getCategoryList = async () => {
-    const data = await apiGet("api/admin/category-list");
+    const data = await apiGet("api/category-list");
     // console.log(data.data);
     dispatch({
       type: CATEGORY_ACTIONS.GET_CATEGORY_LIST,

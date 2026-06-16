@@ -1,4 +1,5 @@
 import { FiArrowRight, FiStar } from "react-icons/fi";
+import { NavLink } from "react-router-dom";
 
 const Hero = () => {
   return (
@@ -13,6 +14,7 @@ const Hero = () => {
           </div>
 
           {/* Heading */}
+
           <h1 className="text-5xl md:text-7xl font-black leading-tight text-pink text-white">
             Shop The
             <span className="block text-teal">Future Today</span>
@@ -25,15 +27,19 @@ const Hero = () => {
           </p>
 
           {/* Buttons */}
-          <div className="mt-5 flex flex-wrap gap-2">
-            <button className="flex items-center gap-2 rounded bg-pink px-7 py-3.5  font-semibold text-white">
-              Shop Now
-              <FiArrowRight />
-            </button>
 
-            <button className="rounded border border-gray-200 px-7 py-3 font-semibold bg-teal hover:text-white hover:bg-black transition">
-              Explore Deals
-            </button>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <NavLink to="/products">
+              <button className="flex items-center gap-2 rounded bg-pink px-7 py-3.5  font-semibold text-white">
+                Shop Now
+                <FiArrowRight />
+              </button>
+            </NavLink>
+            <NavLink to="/products">
+              <button className="rounded border border-gray-200 px-7 py-3 font-semibold bg-teal hover:text-white hover:bg-black transition">
+                Explore Deals
+              </button>
+            </NavLink>
           </div>
 
           {/* Stats */}
@@ -68,11 +74,12 @@ const Hero = () => {
               <p className="mt-2">New arrivals crafted for trendsetters.</p>
 
               <div className="mt-4 flex items-center justify-between">
-                <span className="text-3xl font-bold">$199</span>
-
-                <button className=" text-black rounded bg-cream px-4 py-2 font-semibold hover:opacity-90">
-                  Buy Now
-                </button>
+                <span className="text-3xl font-bold">Rs.199</span>
+                <NavLink to="/products">
+                  <button className=" text-black rounded bg-cream px-4 py-2 font-semibold hover:opacity-90">
+                    Buy Now
+                  </button>
+                </NavLink>
               </div>
             </div>
           </div>

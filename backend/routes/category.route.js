@@ -27,7 +27,7 @@ router.post(
   adminMiddleware,
   addCategory,
 );
-router.get("/admin/category-photo/:id", getCategoryPhoto);
-router.get("/admin/category-list", getCategoryList);
+router.get("/category-photo/:id", getCategoryPhoto);
+router.get("/category-list", getCategoryList);
 
 export default router;

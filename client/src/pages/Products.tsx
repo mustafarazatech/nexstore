@@ -1,105 +1,94 @@
 import { useState } from "react";
 import { FiSearch, FiFilter, FiGrid } from "react-icons/fi";
-import ProductGrid from "../components/ProductGrid";
 import MainLayout from "../layouts/MainLayout";
-
-const categories = [
-  "All",
-  "Electronics",
-  "Fashion",
-  "Shoes",
-  "Accessories",
-  "Beauty",
-];
+import { useCategory } from "../context/category/category.context";
+import ProductGrid from "../components/ProductGrid";
 
 const Products = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const { state } = useCategory();
 
   return (
     <MainLayout>
-      <section className="min-h-screen bg-white py-14">
-        <div className="mx-auto max-w-7xl px-6">
-          {/* Header */}
-          <div className="rounded-2xl border border-gray-100 bg-white p-8 shadow-sm">
-            <div className="flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
-              {/* Title */}
-              <div>
-                <span className="inline-flex rounded-full bg-teal/10 px-4 py-1 text-sm font-semibold text-teal">
-                  Premium Collection
-                </span>
-
-                <h1 className="mt-5 text-4xl font-bold text-gray-900">
-                  Discover <span className="text-pink">Amazing Products</span>
-                </h1>
-
-                <p className="mt-3 max-w-xl text-gray-500">
-                  Explore thousands of curated products designed for modern
-                  shopping.
-                </p>
-              </div>
-
-              {/* Search */}
-              <div className="w-full lg:w-[380px]">
-                <div className="relative">
-                  <FiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-
-                  <input
-                    type="text"
-                    placeholder="Search products..."
-                    value={search}
-                    onChange={(e) => setSearch(e.target.value)}
-                    className="w-full rounded-xl border border-gray-200 bg-white py-3 pl-11 pr-4 text-sm outline-none transition focus:border-teal focus:ring-2 focus:ring-teal/10"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="mt-10 flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-            {/* Categories */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveCategory(category)}
-                  className={`rounded-full px-4 py-2 text-sm font-medium transition ${
-                    activeCategory === category
-                      ? "bg-teal text-white shadow-sm"
-                      : "bg-white text-gray-600 border border-gray-200 hover:border-pink hover:text-pink"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+      <section className="min-h-screen bg-gray-50">
+        {/* TOP BAR (MYNTRA STYLE COMPACT HEADER) */}
+        <div className="bg-white border-b border-gray-200 sticky top-0 z-10">
+          <div className="mx-auto max-w-7xl px-4 py-3 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+            {/* SEARCH */}
+            <div className="relative w-full lg:w-[420px]">
+              <FiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+              <input
+                type="text"
+                placeholder="Search for products, brands..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full border border-gray-200 bg-white py-2 pl-10 pr-3 text-sm outline-none focus:border-pink-500"
+              />
             </div>
 
-            {/* Right Controls */}
+            {/* RIGHT CONTROLS */}
             <div className="flex items-center gap-3">
-              {/* Count */}
-              <div className="hidden items-center gap-2 text-sm text-gray-500 md:flex">
-                <FiGrid className="text-teal" />
-                <span>20 products</span>
+              <div className="hidden md:flex items-center gap-2 text-xs text-gray-500">
+                <FiGrid />
+                <span>20 items</span>
               </div>
 
-              {/* Filter */}
-              <button className="flex items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition hover:border-teal hover:text-teal">
-                <FiFilter className="text-pink" />
-                Filters
+              <button className="flex items-center gap-2 border border-gray-200 px-3 py-2 text-xs hover:border-pink-500 hover:text-pink-500">
+                <FiFilter />
+                Filter
               </button>
 
-              {/* Sort */}
-              <button className="rounded-xl border border-gray-200 bg-white px-4 py-2 text-sm text-gray-700 transition hover:border-pink hover:text-pink">
-                Newest
+              <button className="border border-gray-200 px-3 py-2 text-xs hover:border-gray-400">
+                Sort: Newest
               </button>
             </div>
           </div>
+        </div>
 
-          {/* Products */}
-          <div className="mt-12">
-            <ProductGrid search={search} category={activeCategory} />
+        {/* CATEGORY STRIP (MYNTRA STYLE PILLS) */}
+        <div className="bg-white border-b border-gray-100">
+          <div className="mx-auto max-w-7xl px-4 py-3 flex gap-2 overflow-x-auto">
+            <button
+              onClick={() => setActiveCategory("All")}
+              className={`px-4 py-1 text-xs rounded-full border whitespace-nowrap transition ${
+                activeCategory === "All"
+                  ? "bg-pink-600 text-white border-pink-600"
+                  : "border-gray-200 text-gray-600 hover:border-pink-500 hover:text-pink-500"
+              }`}
+            >
+              All
+            </button>
+
+            {state.categoryList.map((category) => (
+              <button
+                key={category._id}
+                onClick={() => setActiveCategory(category.name)}
+                className={`px-4 py-1 text-xs rounded-full border whitespace-nowrap transition ${
+                  activeCategory === category.name
+                    ? "bg-pink-600 text-white border-pink-600"
+                    : "border-gray-200 text-gray-600 hover:border-pink-500 hover:text-pink-500"
+                }`}
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
+        </div>
+
+        {/* PRODUCTS GRID AREA */}
+        <div className="mx-auto max-w-7xl px-4 py-6">
+          {/* OPTIONAL SMALL HEADING */}
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-sm font-semibold text-gray-700">
+              Showing products
+            </h2>
+
+            <span className="text-xs text-gray-500">Sort by relevance</span>
+          </div>
+
+          {/* GRID */}
+          <ProductGrid search={search} category={activeCategory} />
         </div>
       </section>
     </MainLayout>

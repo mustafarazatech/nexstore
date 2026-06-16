@@ -5,6 +5,8 @@ import {
   addProduct,
   getProductList,
   getProductPhoto,
+  getProductDetail,
+  getFilterByCategory,
 } from "../controllers/product.controller.js";
 
 const router = express.Router();
@@ -16,7 +18,9 @@ const upload = multer({
 router.post("/admin/add-product", upload.single("photo"), addProduct);
 
 router.get("/admin/product-list", getProductList);
+router.get("/admin/product-detail/:id", getProductDetail);
 
 router.get("/admin/product-photo/:id", getProductPhoto);
+router.get("/admin/product-category/:id", getFilterByCategory);
 
 export default router;

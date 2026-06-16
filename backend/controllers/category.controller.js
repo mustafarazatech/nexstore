@@ -17,7 +17,7 @@ export const addCategory = async (req, res) => {
     if (req.file) {
       //   console.log(req.file);
       const resizedImage = await resizePhoto(req.file.buffer);
-      console.log(resizedImage.buffer);
+      // console.log(resizedImage.buffer);
 
       photo = {
         data: resizedImage.buffer,

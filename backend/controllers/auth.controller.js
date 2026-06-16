@@ -1,4 +1,4 @@
-import Register from "../models/Register.js";
+import User from "../models/User.js";
 import { hashPassword, comparePassword } from "../utils/password.js";
 import { registerSchema } from "../validations/auth-validation.js";
 import { generateToken } from "../utils/token.js";
@@ -24,7 +24,7 @@ export const register = async (req, res) => {
     }
 
     // Check existing user
-    const existingUser = await Register.findOne({ email });
+    const existingUser = await User.findOne({ email });
 
     if (existingUser) {
       return res.status(409).json({
@@ -37,7 +37,7 @@ export const register = async (req, res) => {
     const hashedPassword = await hashPassword(password);
 
     // Create user
-    const user = await Register.create({
+    const user = await User.create({
       name,
       email,
       password: hashedPassword,
@@ -72,7 +72,7 @@ export const login = async (req, res) => {
     }
 
     // Find User
-    const user = await Register.findOne({ email });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(404).json({
@@ -123,6 +123,46 @@ export const login = async (req, res) => {
       message: "Internal Server Error",
     });
   }
+};
+export const createProfile = async (req, res) => {
+  const { mobileNo, address, pinCode, stateName } = req.body;
+  const id = req.user._id;
+
+  const payload = {
+    mobileNo,
+    address,
+    pinCode,
+    stateName,
+  };
+
+  const updatedUser = await User.findByIdAndUpdate(
+    id,
+    {
+      $push: { profile: payload },
+    },
+    { new: true },
+  );
+
+  return res.status(200).json({
+    message: "Profile added successfully",
+    user: updatedUser,
+  });
+};
+export const getProfile = async (req, res) => {
+  const id = req.user._id;
+
+  const user = await User.findById(id).select("profile");
+  console.log(user);
+  // console.log("profile", Object.fromEntries(user.profile));
+
+  if (!user) {
+    return res.status(404).json({ message: "User not found" });
+  }
+
+  return res.status(200).json({
+    message: "Profile fetched successfully",
+    profile: user.profile,
+  });
 };
 export const logoutController = (req, res) => {
   res.clearCookie("token");
