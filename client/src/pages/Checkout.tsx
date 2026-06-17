@@ -2,6 +2,7 @@ import { useState } from "react";
 import MainLayout from "../layouts/MainLayout";
 import { useAuth } from "../context/auth/auth.context";
 import { useCart } from "../context/cart/cart.context";
+import { Navigate } from "react-router-dom";
 
 const Checkout = () => {
   const {
@@ -10,11 +11,12 @@ const Checkout = () => {
 
   const {
     state: { cartList },
+    profileId,
   } = useCart();
 
   const [paymentMethod, setPaymentMethod] = useState("cod");
 
-  const selectedAddress = profileList?.[0];
+  const selectedAddress = profileList?.[profileId];
 
   const totalMrp = cartList.reduce(
     (acc, item) => acc + item.product.price * item.quantity,
@@ -40,6 +42,9 @@ const Checkout = () => {
       total,
     });
   };
+  if (!profileId) {
+    return <Navigate to="/cart" replace />;
+  }
 
   return (
     <MainLayout>

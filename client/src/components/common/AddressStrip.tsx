@@ -8,12 +8,16 @@ import {
   FiTrash2,
   FiCheckCircle,
 } from "react-icons/fi";
+import { useCart } from "../../context/cart/cart.context";
 
 const AddressStrip = ({ item }: any) => {
   const [select, setSelect] = useState(null);
+  const { handleAddressSelected } = useCart();
   const handleSelect = (item, id) => {
     // console.log(item, id);
+    handleAddressSelected(id);
     setSelect(id);
+    console.log(id);
   };
   console.log(select);
   return (

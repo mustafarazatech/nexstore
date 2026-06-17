@@ -38,6 +38,14 @@ export const productReducer = (
         ...state,
         productCategory: action.payload,
       };
+    case PRODUCT_ACTIONS.HANDLE_QUANTITY:
+      return {
+        ...state,
+        quantity:
+          action.payload === "inc"
+            ? state.quantity + 1
+            : Math.max(1, state.quantity - 1),
+      };
 
     default:
       return state;

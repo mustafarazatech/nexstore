@@ -11,6 +11,9 @@ const Cart = () => {
 
   const {
     state: { cartList },
+    increaseCartItem,
+    decreaseCartItem,
+    handleCheckout,
   } = useCart();
 
   const subtotal = cartList.reduce(
@@ -29,7 +32,7 @@ const Cart = () => {
           <AddressStrip item={state.profileList} />
 
           <h1 className="mt-4 text-lg font-semibold text-gray-800">
-            My Bag{" "}
+            My Bag
             <span className="text-gray-500">
               ({cartList.length} {cartList.length === 1 ? "item" : "items"})
             </span>
@@ -104,7 +107,10 @@ const Cart = () => {
                     </div>
 
                     <div className="mt-6 flex items-center border border-gray-200">
-                      <button className="px-2 py-1 hover:bg-gray-100">
+                      <button
+                        className="px-2 py-1 hover:bg-gray-100"
+                        onClick={() => decreaseCartItem(item._id)}
+                      >
                         <FiMinus size={12} />
                       </button>
 
@@ -112,7 +118,10 @@ const Cart = () => {
                         {item.quantity}
                       </span>
 
-                      <button className="px-2 py-1 hover:bg-gray-100">
+                      <button
+                        className="px-2 py-1 hover:bg-gray-100"
+                        onClick={() => increaseCartItem(item._id)}
+                      >
                         <FiPlus size={12} />
                       </button>
                     </div>
@@ -155,10 +164,10 @@ const Cart = () => {
               </div>
 
               <button
-                onClick={() => navigate("/checkout")}
-                className="mt-6 w-full bg-pink-600 py-3 text-sm font-semibold uppercase tracking-wide text-white hover:bg-pink-700"
+                onClick={() => handleCheckout()}
+                className="mt-6 w-full bg-pink py-3 text-sm font-semibold uppercase tracking-wide text-white hover:bg-pink-700"
               >
-                Place Order
+                Proceed To Checkout
               </button>
             </div>
           </div>

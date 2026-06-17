@@ -13,7 +13,7 @@ export const showSuccessToast = (message: string) => {
 export const showErrorToast = (message: string) => {
   toast.error(message, {
     style: {
-      background: "#dc3545",
+      background: "#ff78ac",
       color: "#fff",
       textAlign: "center",
     },

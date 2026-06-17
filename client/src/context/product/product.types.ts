@@ -29,6 +29,7 @@ export type ProductState = {
   productList: ProductItem[];
   productDetail: ProductItem | null;
   productCategory: any[];
+  quantity: number;
 };
 
 export type ProductContext = {
@@ -39,6 +40,7 @@ export type ProductContext = {
   getProductList: () => Promise<void>;
   getProductDetail: (id: any) => Promise<void>;
   getProductCtegoryFilter: (id: any) => Promise<void>;
+  handleQuantity: (qytType: any) => void;
 };
 
 export type ProductAction =
@@ -48,6 +50,10 @@ export type ProductAction =
         key: any;
         value: any;
       };
+    }
+  | {
+      type: typeof PRODUCT_ACTIONS.HANDLE_QUANTITY;
+      payload: any;
     }
   | {
       type: typeof PRODUCT_ACTIONS.GET_PRODUCT_LIST;

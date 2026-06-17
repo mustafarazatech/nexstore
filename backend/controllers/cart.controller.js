@@ -55,7 +55,7 @@ export const getCartItems = async (req, res) => {
       "-photo",
     );
 
-    console.log(cartItems);
+    // console.log(cartItems);
 
     const total = cartItems.reduce(
       (sum, item) => sum + item.price * item.quantity,
@@ -74,6 +74,70 @@ export const getCartItems = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Internal Server Error",
+    });
+  }
+};
+export const increaseCartItem = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { itemId } = req.body;
+
+    const cartItem = await Cart.findOne({
+      _id: itemId,
+      user: userId,
+    });
+
+    if (!cartItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart item not found",
+      });
+    }
+
+    cartItem.quantity += 1;
+    await cartItem.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Quantity increased",
+      cartItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+export const decreaseCartItem = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { itemId } = req.body;
+
+    const cartItem = await Cart.findOne({
+      _id: itemId,
+      user: userId,
+    });
+
+    if (!cartItem) {
+      return res.status(404).json({
+        success: false,
+        message: "Cart item not found",
+      });
+    }
+
+    cartItem.quantity -= 1;
+    await cartItem.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Quantity increased",
+      cartItem,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
     });
   }
 };

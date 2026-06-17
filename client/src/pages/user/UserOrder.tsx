@@ -2,6 +2,28 @@ import { FiPackage } from "react-icons/fi";
 import UserLayout from "../../layouts/UserLayout";
 
 const UserOrder = () => {
+  //   import { useEffect } from "react";
+
+  // import { useOrder } from "../context/order.context";
+  // import { getOrders } from "../context/order.actions";
+
+  // const Orders = () => {
+  //   const { state, dispatch } = useOrder();
+
+  //   useEffect(() => {
+  //     getOrders(dispatch);
+  //   }, []);
+
+  //   return (
+  //     <>
+  //       {state.orders.map((order) => (
+  //         <div key={order._id}>
+  //           {order.orderId}
+  //         </div>
+  //       ))}
+  //     </>
+  //   );
+  // };
   const orders = [
     {
       id: 1,

@@ -1,19 +1,30 @@
-import { createContext, useReducer, useContext, useEffect } from "react";
+import {
+  createContext,
+  useReducer,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { apiGet, apiPost } from "../../services/api";
 import { cartReducer } from "./cart.reducer";
 import { useAuth } from "../auth/auth.context";
 
 import type { CartState, CartContextType } from "./cart.types";
+import { showErrorToast } from "../../utils/toast";
+import { useNavigate } from "react-router-dom";
 
 export const initialState: CartState = {
   cartList: [],
   total: 0,
+  addressObj: null,
 };
 
 const CartContext = createContext<CartContextType | null>(null);
 
 export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useAuth();
+  const [profileId, setProifleId] = useState(null);
+  const navigate = useNavigate();
 
   const [state, dispatch] = useReducer(cartReducer, initialState);
 
@@ -49,13 +60,20 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // INCREASE ITEM
-  const increaseCartItem = async (itemId: string) => {
-    await apiPost("api/cart/increase", { itemId });
+  const increaseCartItem = async (itemId: any) => {
+    console.log(itemId);
+    const payload = {
+      itemId: itemId,
+    };
+    await apiPost("api/cart/increase", payload);
     await getCartList();
   };
 
   // DECREASE ITEM
   const decreaseCartItem = async (itemId: string) => {
+    // const payload = {
+    //   itemId,
+    // };
     await apiPost("api/cart/decrease", { itemId });
     await getCartList();
   };
@@ -72,15 +90,33 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     }
   }, [user]);
 
+  const handleAddressSelected = (data) => {
+    // console.log(data);
+    setProifleId(data);
+  };
+  const handleCheckout = () => {
+    console.log(profileId);
+
+    if (profileId === null || profileId === undefined) {
+      showErrorToast("Provide Address First");
+      return;
+    }
+
+    navigate("/checkout");
+  };
+
   return (
     <CartContext.Provider
       value={{
         state,
         getCartList,
         handleCart,
-        // increaseCartItem,
-        // decreaseCartItem,
-        // removeCartItem,
+        increaseCartItem,
+        decreaseCartItem,
+        removeCartItem,
+        handleAddressSelected,
+        profileId,
+        handleCheckout,
       }}
     >
       {children}

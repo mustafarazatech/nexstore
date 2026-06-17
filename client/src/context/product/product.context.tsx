@@ -23,6 +23,7 @@ export const initialState: ProductState = {
   productList: [],
   productDetail: null,
   productCategory: [],
+  quantity: 1,
 };
 
 const ProductContext = createContext<ProductContext | null>(null);
@@ -114,6 +115,13 @@ export const ProductProvider = ({ children }: any) => {
       });
     }
   };
+
+  const handleQuantity = (qtyType: any) => {
+    dispatch({
+      type: PRODUCT_ACTIONS.HANDLE_QUANTITY,
+      payload: qtyType,
+    });
+  };
   return (
     <ProductContext.Provider
       value={{
@@ -124,6 +132,7 @@ export const ProductProvider = ({ children }: any) => {
         getProductList,
         getProductDetail,
         getProductCtegoryFilter,
+        handleQuantity,
       }}
     >
       {children}

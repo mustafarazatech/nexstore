@@ -33,9 +33,18 @@ export type CartItem = {
 /**
  * Cart state
  */
+export type AddressObj = {
+  name: string;
+  mobileNo: string;
+  address: string;
+  pinCode: string;
+  city: string;
+  stateName: string;
+};
 export type CartState = {
   cartList: CartItem[];
   total: number;
+  addressObj: AddressObj | null;
 };
 
 /**
@@ -45,6 +54,9 @@ export type CartContextType = {
   state: CartState;
   handleCart: (productId: any, price: any, quantity?: number) => Promise<void>;
   getCartList: () => Promise<void>;
+  increaseCartItem: (id: any) => Promise<void>;
+  decreaseCartItem: (id: any) => Promise<void>;
+  removeCartItem: (id: any) => Promise<void>;
 };
 
 /**

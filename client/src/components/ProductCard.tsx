@@ -1,4 +1,5 @@
 import { FaHeart, FaStar } from "react-icons/fa";
+import { NavLink } from "react-router-dom";
 
 type ProductItem = {
   _id: string;
@@ -81,10 +82,11 @@ const ProductCard = ({ data }: ProductCardProps) => {
                   </>
                 )}
               </div>
-
-              <button className="mt-2 w-full border border-gray-300 py-1.5 text-xs font-semibold text-gray-700 hover:border-pink-500 hover:text-pink-500">
-                ADD TO BAG
-              </button>
+              <NavLink to={`/product-detail/${item._id}`}>
+                <button className="mt-2 w-full border border-gray-300 py-1.5 text-xs font-semibold text-gray-700 hover:border-pink-500 hover:text-pink-500">
+                  ADD TO BAG
+                </button>
+              </NavLink>
             </div>
           </div>
         );

@@ -152,7 +152,7 @@ export const getProfile = async (req, res) => {
   const id = req.user._id;
 
   const user = await User.findById(id).select("profile");
-  console.log(user);
+  // console.log(user);
   // console.log("profile", Object.fromEntries(user.profile));
 
   if (!user) {

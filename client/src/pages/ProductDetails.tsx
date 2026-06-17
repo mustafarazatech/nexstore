@@ -8,7 +8,7 @@ import { useCart } from "../context/cart/cart.context";
 const ProductDetails = () => {
   const { id } = useParams<{ id: string }>();
 
-  const { state, getProductDetail } = useProduct();
+  const { state, getProductDetail, handleQuantity } = useProduct();
   const { handleCart } = useCart();
 
   const product = state?.productDetail;
@@ -85,6 +85,27 @@ const ProductDetails = () => {
                 (Flat Offer)
               </span>
             </div>
+            <div className="quantity flex w-[200px] cursor-pointer ">
+              <div className="border border-gray-200 flex flex-1/2 justify-between  text-2xl rounded px-4">
+                <div>
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => handleQuantity("inc")}
+                  >
+                    +
+                  </button>
+                </div>
+                <div> {state.quantity}</div>
+                <div>
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => handleQuantity("dec")}
+                  >
+                    -
+                  </button>
+                </div>
+              </div>
+            </div>
 
             {/* DELIVERY STRIP (MYNTRA STYLE) */}
             <div className="bg-white border border-gray-100 p-3 text-xs text-gray-600">
@@ -119,7 +140,9 @@ const ProductDetails = () => {
             {/* ACTIONS (MYNTRA STYLE BUTTONS) */}
             <div className="flex gap-3 pt-2">
               <button
-                onClick={() => handleCart(product?._id, product.price, 1)}
+                onClick={() =>
+                  handleCart(product?._id, product.price, state.quantity)
+                }
                 className="flex-1 flex items-center justify-center gap-2 bg-pink-600 text-white py-3 text-sm font-semibold hover:bg-pink-700 uppercase"
               >
                 <FiShoppingBag />
@@ -132,9 +155,9 @@ const ProductDetails = () => {
             </div>
 
             {/* BUY NOW (SECONDARY CTA) */}
-            <button className="w-full border border-black py-3 text-sm font-semibold text-black hover:bg-black hover:text-white uppercase">
+            {/* <button className="w-full border border-black py-3 text-sm font-semibold text-black hover:bg-black hover:text-white uppercase">
               Buy Now
-            </button>
+            </button> */}
           </div>
         </div>
       </section>
